@@ -1,0 +1,26 @@
+{
+  "name": "pinging",
+  "license": "Apache-2.0",
+  "scripts": {
+    "build": "parcel build *.html",
+    "start": "parcel serve *.html",
+    "watch": "parcel watch *.html"
+  },
+  "devDependencies": {
+    "@parcel/compressor-brotli": "^2.5.0",
+    "@parcel/compressor-gzip": "^2.5.0",
+    "@parcel/packager-raw-url": "^2.5.0",
+    "@parcel/transformer-webmanifest": "^2.5.0",
+    "parcel": "^2.5.0"
+  },
+  "dependencies": {
+    "@popperjs/core": "^2.11.5"
+  },
+  "browserslist": [
+    "last 3 and_chr versions",
+    "last 3 chrome versions",
+    "last 3 opera versions",
+    "last 3 ios_saf versions",
+    "last 3 safari versions"
+  ]
+}

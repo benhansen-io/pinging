@@ -1,0 +1,7 @@
+#!/bin/bash
+set -euo pipefail
+
+ZONE=${1}
+INSTANCE_NUM=${2}
+
+gcloud compute instances create instance-$INSTANCE_NUM --image-project=arch-linux-gce --image-family=arch --zone ${ZONE} --machine-type e2-micro --project pinging

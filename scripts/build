@@ -1,0 +1,12 @@
+#!/bin/bash
+set -euo pipefail
+cd $(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)
+
+pushd frontend
+npm install
+npm run build
+popd
+
+pushd backend
+cargo build --release
+popd

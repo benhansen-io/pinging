@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<title>Pinging: Monitoring Your Connection</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<link rel="stylesheet" href="./index.css" />
+<h1 id="summaryText">Your internet is <strong>online</strong></h1>
+
+<div id="status-board">
+  <span class="type">HTTP:&nbsp;<span id="httpStatus">?</span></span>
+  <span class="type">DNS:&nbsp;<span id="dnsStatus">?</span></span>
+  <span class="type">WebRTC:&nbsp;<span id="webRtcStatus">?</span></span>
+  <span class="type">Browser:&nbsp;<span id="browserStatus">?</span></span>
+  <span class="type">Initial&nbsp;load:&nbsp;<span id="initialLoadStatus">&#x2713;</span></span>
+  <br />
+  <div class="details">next update in <span id="timeUntilNextPeriodicTests">60</span>s</div>
+</div>
+
+<noscript>
+  <p>
+    JavaScript is disabled. The initial load test indicates your internet is online. Enable
+    JavaScript to run continuous tests on your internet connection.
+  </p>
+  <br />
+</noscript>
+
+<h3>Web Pings</h3>
+<div id="pingChart">
+  <div id="secondLabels" class="row">
+    <div class="minuteLabel"></div>
+    <div class="sec" style="flex: 9 9 0; text-align: left">0s</div>
+    <div class="sec" style="flex: 2 2 0"></div>
+    <div class="sec" style="flex: 9 9 0">15</div>
+    <div class="sec" style="flex: 6 6 0"></div>
+    <div class="sec" style="flex: 9 9 0">30</div>
+    <div class="sec" style="flex: 6 6 0"></div>
+    <div class="sec" style="flex: 9 6 0">45</div>
+    <div class="sec" style="flex: 2 2 0"></div>
+    <div class="sec" style="flex: 9 9 0; text-align: right">59</div>
+  </div>
+</div>
+<div id="logs">
+  <h3>Logs</h3>
+  <textarea id="logContents" wrap="off"> </textarea>
+</div>
+
+<br />
+
+<p class="details">
+  Currently sending and receiving pings from <span id="pingLocation">TBD</span>. View our other
+  <a href="locations" target="_blank">locations</a>.
+</p>
+
+<p class="details">
+  Pinging is still being built and results may be inaccurate.
+  <a id="logToggle" href="javascript:void(0);">View</a> log. Read more
+  <a href="about" target="_blank">about</a> these tests and this site.
+</p>
+
+<div id="tooltip" role="tooltip">Tooltip</div>
+<script type="module" src="./index.ts"></script>

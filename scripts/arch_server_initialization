@@ -1,0 +1,20 @@
+
+# gcp only
+sudo pacman -Syu
+
+sudo pacman -S rsync htop tmux strace gdb ripgrep kakoune perf
+
+# vultr only as user root
+useradd -m -G wheel pinging
+mkdir ~pinging/.ssh/
+cp ~/.ssh/authorized_keys ~pinging/.ssh/
+chown -R pinging:pinging ~pinging/.ssh/
+ufw allow proto tcp from any to any port 80,443
+ufw allow proto udp from any to any port 8888
+
+sudo reboot
+
+# as user pinging
+mkdir -p ~/letsencrypt/{work,config,log}
+certbot certonly --manual --preferred-challenges=dns --agree-tos -d 'pinging.net' -d '*.pinging.net' -m pinging@benjamin-hansen.com --config-dir ~/letsencrypt/config --work-dir ~/letsencrypt/work/ --logs-dir ~/letsencrypt/log/
+drill _acme-challenge.pinging.net TXT

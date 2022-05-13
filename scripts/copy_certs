@@ -1,0 +1,13 @@
+#!/bin/bash
+set -euo pipefail
+cd $(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)
+
+FROM=${1}
+TO=${2}
+
+echo "$FROM -> $TO"
+
+rsync -va -r pinging@$FROM:~/letsencrypt/config ./letsencrypt_config_transfer_temp
+ssh pinging@$TO "mkdir -p ~/letsencrypt/config"
+rsync -va -r ./letsencrypt_config_transfer_temp/ pinging@$TO:~/letsencrypt/
+rm -r letsencrypt_config_transfer_temp

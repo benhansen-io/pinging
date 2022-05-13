@@ -1,0 +1,7 @@
+#!/bin/bash
+set -euo pipefail
+cd $(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)
+
+./scripts/build
+
+source ./configs/development.env && ./backend/target/release/pinging

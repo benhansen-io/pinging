@@ -1,0 +1,9 @@
+[Service]
+WorkingDirectory=/home/pinging/pinging/
+ExecStart=bash -c "source production.env && ./pinging"
+Restart=always
+SyslogIdentifier=pinging
+User=pinging
+Group=pinging
+[Install]
+WantedBy=multi-user.target

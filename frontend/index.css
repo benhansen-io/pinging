@@ -1,0 +1,120 @@
+body {
+  background-color: #fbfbfb;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  font-size: 1em;
+  text-align: center;
+}
+
+#resources {
+  display: none;
+}
+
+#status-board {
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1em;
+}
+
+#status-board > .details {
+  text-align: right;
+  margin-top: 0.3em;
+}
+
+#status-board .type {
+  padding: 0.35em;
+}
+
+#pingChart {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1000px;
+  width: 100%;
+  user-select: none;
+}
+
+#pingChart .future {
+  background-color: #fbfbfb;
+}
+
+#pingChart .noresponse {
+  background-color: #dddddd;
+}
+
+#pingChart .success {
+  background-color: #e5f8e9;
+}
+
+#pingChart .noconnection {
+  background-color: #ffe083;
+}
+
+#pingChart .timeout {
+  background-color: #ed99a1;
+}
+
+#pingChart .row {
+  display: flex;
+  padding: 0px;
+  height: 3em; /* keep in sync with JS */
+  margin: 0.8em 0em;
+}
+
+#pingChart .minuteLabel {
+  width: 6ch;
+  flex: 0 0 6ch;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+}
+
+#pingChart .sec {
+  flex: 1 1 0;
+}
+
+#pingChart #secondLabels .sec {
+  border-top: 1px black solid;
+  padding-top: 0.5em;
+}
+
+#pingChart .latencyLine {
+  /* use px instead of em/px so the height is consistent */
+  height: 2px;
+  width: 100%;
+  background-color: #28a745;
+}
+
+#tooltip {
+  display: none;
+  background: #333;
+  color: white;
+  font-weight: bold;
+  padding: 4px 8px;
+  font-size: 13px;
+  border-radius: 4px;
+}
+
+#tooltip[data-show] {
+  display: block;
+}
+
+.details {
+  font-size: 90%;
+  color: #333333;
+}
+
+#logs {
+  display: none;
+}
+
+#logContents {
+  box-sizing: border-box;
+  background-color: #fefefe;
+  padding: 0.5em;
+  border: 1px solid #333333;
+  width: 100%;
+  max-width: 800px;
+  height: 30em;
+}

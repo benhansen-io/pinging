@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+<title>About Pinging</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<style>
+  body {
+    background-color: #fbfbfb;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+      sans-serif;
+  }
+</style>
+<h2>About Pinging</h2>
+<p>
+  An unreliable internet connection...<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;is so...<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frustrating!<br />
+</p>
+<p>
+  Pinging.net quickly determines if you are online by running multiple tests. It then continues to
+  monitor your connection via repeated tests including a "web ping" every second to help identify
+  intermittent network issues.
+</p>
+
+<h2 id="http">HTTP Test</h2>
+<p>
+  Makes a HTTP POST request with a random string body and verifies it is returned properly. Caching
+  of the request is also explicitly disabled.
+</p>
+<p>
+  <a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol">HTTP</a> is the foundational
+  transportation technology used on the web.
+</p>
+
+<h2 id="dns">DNS Test</h2>
+<p>
+  A HTTP GET request to a [random-number]dns-check.pinging.net. Caching is explicitly disabled and
+  the random number part of the subdomain prevents common caching of the DNS lookup.
+</p>
+<p>
+  <a href="https://en.wikipedia.org/wiki/Domain_Name_System">DNS</a> is the system that converts
+  domain names (e.g. pinging.net) to an address that a computer understands (e.g. 192.168.100.100).
+</p>
+
+<h2 id="webping">Web Ping</h2>
+<p>
+  Every second a WebRTC message is sent and returned by the server.
+  <a href="https://en.wikipedia.org/wiki/User_Datagram_Protocol">UDP</a> is used for the underlying
+  transport mechanism so dropped messages are not retried. Dropped packets will show up as red
+  squares. The round trip time of each ping is graphed and can be viewed in the log or by hovering
+  over the graph.
+</p>
+
+<h2 id="browser">Browser Check</h2>
+<p>
+  Web browsers report if they believe you are offline. If this check is failing it means you are
+  likely not connected to your WiFi, cellular connection or ethernet cord. This is a basic check and
+  it will often pass even if you are not connected. This check is continuously monitored by your
+  browser.
+</p>
+
+<h2 id="initial">Initial Load Check</h2>
+<p>
+  Caching is disabled for this site so if this site loads it is a strong indication your internet is
+  working at the time of loading the site.
+</p>
+
+<h2>More Information</h2>
+<p>
+  Speed is also an important attribute of your internet connection. It is not currently monitored by
+  this site but can be measured on sites such as <a href="https://fast.com">fast.com</a> or
+  <a href="https://www.speedtest.net">speedtest.net</a>.
+</p>
+<h2>Privacy</h2>
+<p>
+  We do not collect personal data and do not use cookies. IP addresses are only stored for up to 72
+  hours.
+  <a href="/metrics">metrics</a> for each server host are publicly available.
+</p>
+
+<h2 id="contact">Contribute and Contact</h2>
+<p>
+  The code for this site is located on <a href="https://github.com/benhansenslc/pinging">GitHub</a>.
+  I would love to hear from you. Open a new
+  <a href="https://github.com/benhansenslc/pinging/issues">issue</a> on GitHub or email
+  <a href="mailto:pinging@benjamin-hansen.com">pinging@benjamin-hansen.com</a> for suggestions or
+  questions.
+</p>
+
+<h2>Terms and Conditions</h2>
+<p>
+  We are not responsible if information made available on this site is not accurate, complete or
+  current. The material on this site is provided for general information only and should not be
+  relied upon or used as the sole basis for making decisions without consulting other sources of
+  information. Any reliance on the material on this site is at your own risk.
+</p>
+<p>
+  We reserve the right to modify the contents of this site at any time, but we have no obligation to
+  update any information on our site. This site may be discontinued at any time. You agree that it
+  is your responsibility to monitor changes to our site terms.
+</p>
