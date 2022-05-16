@@ -57,7 +57,12 @@ const pingResults: (string | number)[] = [];
 
 // Holding this to allow for background timers more frequently than once per
 // second which prevents gaps in ping requests on at least Firefox
-const audioContext = new AudioContext();
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+const audioContext = (() => {
+  if (AudioContext) {
+    return new AudioContext();
+  }
+})();
 
 // The second div that is currently or most recently display the tooltip
 let tooltipTarget: EventTarget | null = null;

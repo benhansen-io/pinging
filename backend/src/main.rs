@@ -13,8 +13,6 @@ use std::{net::SocketAddr, time::Duration};
 use tower_http::set_header::SetResponseHeaderLayer;
 use tracing::info;
 
-use crate::www_redirect::redirect_to_www_middleware_fn;
-
 mod https_redirect;
 mod metrics;
 mod static_files;
@@ -47,8 +45,7 @@ async fn dns_check(OriginalUri(original_uri): OriginalUri, host: Host) -> String
 
 /// HTTP ping
 async fn ping(data: ContentLengthLimit<String, 60>) -> String {
-    // TODO no .into_inner() for ContentLengthLimit?
-    (*data).to_owned()
+    data.0
 }
 
 fn log_env_variables() {
@@ -150,7 +147,9 @@ async fn main() -> anyhow::Result<()> {
                     header::PRAGMA,
                     HeaderValue::from_static("no-cache"),
                 ))
-                .layer(middleware::from_fn(redirect_to_www_middleware_fn)),
+                .layer(middleware::from_fn(
+                    www_redirect::redirect_to_www_middleware_fn,
+                )),
         );
 
     let tls_cert = get_opt_env_var("PINGING_TLS_CERT")?;
