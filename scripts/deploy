@@ -7,17 +7,23 @@ rm -rf ./frontend/dist
 
 HOST=${1}
 LOCATION_DESCRIPTION=${2}
+DEPLOY_TYPE=${3}
 
+# cp the binary over to tmp for faster rsync
+# Must mkdir before rsync
+ssh pinging@$HOST "mkdir -p ~/pinging/public; cp ~/pinging/pinging ~/pinging/pinging_tmp 2> /dev/null || true"
 rsync -v frontend/dist/* pinging@$HOST:~/pinging/public/
-if [[ "${ONLY_STATIC_FILES:-0}" == "1" ]]; then
+if [[ "$DEPLOY_TYPE" == "ONLY_STATIC_FILES" ]]; then
+    echo "Finished deploying ONLY_STATIC_FILES";
     exit 0;
 fi
-# cp the binary over to tmp for faster rsync
-ssh pinging@$HOST "mkdir -p ~/pinging; cp ~/pinging/pinging ~/pinging/pinging_tmp 2> /dev/null || true"
+if [[ "$DEPLOY_TYPE" != "FULL" ]]; then
+    echo "Must specify either ONLY_STATIC_FILES or FULL for DEPLOY_TYPE"
+    exit 1;
+fi
 rsync -v ./configs/production.env pinging@$HOST:~/pinging/
 rsync -v ./configs/pinging.service root@$HOST:/etc/systemd/system/
-echo "$LOCATION_DESCRIPTION" > location_description_for_deploy.txt
-rsync -v location_description_for_deploy.txt pinging@$HOST:~/pinging/location_description.txt
-rm location_description_for_deploy.txt
+ssh pinging@$HOST "echo '$LOCATION_DESCRIPTION' > ~/pinging/location_description.txt; echo '$HOST' > ~/pinging/public_ip.txt"
 rsync -v backend/target/release/pinging pinging@$HOST:~/pinging/pinging_tmp
 ssh root@$HOST "setcap CAP_NET_BIND_SERVICE=+eip ~pinging/pinging/pinging_tmp && systemctl daemon-reload && mv ~pinging/pinging/pinging_tmp ~pinging/pinging/pinging && systemctl restart pinging"
+echo "Deploy complete. Remember to copy letsencrypt certs if needed."
