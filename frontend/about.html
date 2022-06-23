@@ -28,6 +28,15 @@
   intermittent network issues.
 </p>
 
+<h2 id="webping">Web Ping</h2>
+<p>
+  Every second a WebRTC message is sent and returned by the server.
+  <a href="https://en.wikipedia.org/wiki/User_Datagram_Protocol">UDP</a> is used for the underlying
+  transport mechanism so dropped messages are not retried which is desired in order to determine
+  packet loss. Dropped packets will show up as red squares. The round trip time of each ping is
+  graphed and can be viewed in the log or by hovering over the graph.
+</p>
+
 <h2 id="http">HTTP Test</h2>
 <p>
   Makes a HTTP POST request with a random string body and verifies it is returned properly. Caching
@@ -46,15 +55,6 @@
 <p>
   <a href="https://en.wikipedia.org/wiki/Domain_Name_System">DNS</a> is the system that converts
   domain names (e.g. pinging.net) to an address that a computer understands (e.g. 192.168.100.100).
-</p>
-
-<h2 id="webping">Web Ping</h2>
-<p>
-  Every second a WebRTC message is sent and returned by the server.
-  <a href="https://en.wikipedia.org/wiki/User_Datagram_Protocol">UDP</a> is used for the underlying
-  transport mechanism so dropped messages are not retried. Dropped packets will show up as red
-  squares. The round trip time of each ping is graphed and can be viewed in the log or by hovering
-  over the graph.
 </p>
 
 <h2 id="browser">Browser Check</h2>
