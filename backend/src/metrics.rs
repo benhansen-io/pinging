@@ -18,7 +18,8 @@ pub fn setup_metrics_recorder() -> PrometheusHandle {
 
 pub async fn track_metrics<B>(req: Request<B>, next: Next<B>) -> impl IntoResponse {
     let start = std::time::Instant::now();
-    let path = if let Some(matched_path) = req.extensions().get::<axum::extract::MatchedPath>() {
+    let mut path = if let Some(matched_path) = req.extensions().get::<axum::extract::MatchedPath>()
+    {
         matched_path.as_str().to_owned()
     } else {
         req.uri().path().to_owned()
@@ -29,6 +30,11 @@ pub async fn track_metrics<B>(req: Request<B>, next: Next<B>) -> impl IntoRespon
 
     let latency = start.elapsed().as_secs_f64();
     let status = response.status().as_u16().to_string();
+
+    if status == "404" || status == "405" {
+        // Do not record 404 or 405 paths as metrics so they do not take up memory (and bandwidth when exporting metrics).
+        path = "REDACTED".to_owned();
+    }
 
     let labels = [
         ("method", method.to_string()),
