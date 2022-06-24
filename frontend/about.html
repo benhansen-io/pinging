@@ -30,11 +30,19 @@
 
 <h2 id="webping">Web Ping</h2>
 <p>
-  Every second a WebRTC message is sent and returned by the server.
+  A Web Ping is sent every second. Dropped packets show up as red squares. The round trip time of each ping is
+  graphed as a dark green horizontal line for each second.
+</p>
+<p>
+  <a href="https://en.wikipedia.org/wiki/Ping_(networking_utility)">Ping</a> is a common network testing utility. A
+  packet is sent to a remote computer which replies with a response packet. If and how fast a response is received help
+  determine network connection quality. Normally ping packets are sent using <a
+    href="https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol">ICMP</a> but that is not possible from a web
+  page. Instead a <a href="https://en.wikipedia.org/wiki/WebRTC">WebRTC</a> data channel message is sent to
+  and returned from the server.
   <a href="https://en.wikipedia.org/wiki/User_Datagram_Protocol">UDP</a> is used for the underlying
-  transport mechanism so dropped messages are not retried which is desired in order to determine
-  packet loss. Dropped packets will show up as red squares. The round trip time of each ping is
-  graphed and can be viewed in the log or by hovering over the graph.
+  transport mechanism so dropped messages are not retried which is desired i n order to determine
+  packet loss.
 </p>
 
 <h2 id="http">HTTP Test</h2>
