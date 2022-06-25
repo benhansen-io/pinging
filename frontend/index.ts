@@ -55,6 +55,13 @@ let secondOfFirstPing = 0;
 // each entry is the latency of the ping or a string if an error
 const pingResults: (string | number)[] = [];
 
+// Used to ensure the Last RTT is not overwritten with an older response.
+let lastSuccessPingMillis: number | null = null;
+// Used to compute average round trip time and packet loss.
+let totalRoundTripTime: number = 0;
+let numSuccessfulPings: number = 0;
+let numTimeoutPings: number = 0;
+
 // Holding this to allow for background timers more frequently than once per
 // second which prevents gaps in ping requests on at least Firefox
 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -192,6 +199,7 @@ function setPingResultForSecond(
   if (result === PING_SUCCESS) {
     toSave = elapsed;
   }
+  const previousResult = pingResults[timeSinceFirstPing(sec)];
   pingResults[timeSinceFirstPing(sec)] = toSave;
   // POSIX Unix timestamp days are guaranteed to be 86400.
   const minutesSinceEpoch = Math.floor(sec / 60);
@@ -222,6 +230,18 @@ function setPingResultForSecond(
     block.appendChild(latencyLine);
   }
 
+  if (result == PING_SUCCESS) {
+    if (previousResult === PING_TIMEOUT) {
+      // This is a late result. Undo the earlier timeout count.
+      if (numTimeoutPings > 0) {
+        numTimeoutPings++;
+      }
+    }
+    updatePingStatsOnSuccess(sentMillis, nowMillis);
+  } else if (result == PING_TIMEOUT) {
+    updatePingStatsOnTimeout();
+  }
+
   // update summary
   let recentSuccess = false;
   for (
@@ -238,6 +258,43 @@ function setPingResultForSecond(
   if (recentSuccess || pingResults.length > 5) {
     updateStatus("webRtc", recentSuccess ? GOOD : BAD);
   }
+}
+
+const lastRoundTripTimeSpan: HTMLElement = document.getElementById("lastRTT")!;
+const averageRoundTripTimeSpan: HTMLElement =
+  document.getElementById("avgRTT")!;
+
+function updatePingStatsOnSuccess(sentMillis: number, receivedMillis: number) {
+  let rtt = receivedMillis - sentMillis;
+  if (sentMillis > receivedMillis) {
+    // Or should we skip counting this?
+    rtt = 0;
+  }
+  totalRoundTripTime += rtt;
+  numSuccessfulPings++;
+  if (!lastSuccessPingMillis || sentMillis >= lastSuccessPingMillis) {
+    lastRoundTripTimeSpan.innerHTML = Math.round(rtt) + " ms";
+    lastSuccessPingMillis = sentMillis;
+  }
+
+  const avgRTT = Math.round(totalRoundTripTime / numSuccessfulPings);
+  averageRoundTripTimeSpan.innerHTML = avgRTT + " ms";
+  updatePacketLossSpan();
+}
+
+function updatePingStatsOnTimeout() {
+  numTimeoutPings++;
+  updatePacketLossSpan();
+}
+
+const packetLossSpan: HTMLElement = document.getElementById("packetLoss")!;
+function updatePacketLossSpan() {
+  const total = numSuccessfulPings + numTimeoutPings;
+  if (total == 0) {
+    return;
+  }
+  const percent = Math.round((numTimeoutPings / total) * 100);
+  packetLossSpan.innerHTML = String(percent) + "%";
 }
 
 function log(this: any, ...varargs: any[]) {

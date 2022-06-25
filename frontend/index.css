@@ -21,7 +21,7 @@ body {
   margin-top: 0.3em;
 }
 
-#status-board .type {
+.labeled-detail {
   padding: 0.35em;
 }
 

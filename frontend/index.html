@@ -13,11 +13,11 @@
 <h1 id="summaryText">Your internet is <strong>online</strong></h1>
 
 <div id="status-board">
-  <span class="type">HTTP:&nbsp;<span id="httpStatus">?</span></span>
-  <span class="type">DNS:&nbsp;<span id="dnsStatus">?</span></span>
-  <span class="type">WebRTC:&nbsp;<span id="webRtcStatus">?</span></span>
-  <span class="type">Browser:&nbsp;<span id="browserStatus">?</span></span>
-  <span class="type">Initial&nbsp;load:&nbsp;<span id="initialLoadStatus">&#x2713;</span></span>
+  <span class="labeled-detail">HTTP:&nbsp;<span id="httpStatus">?</span></span>
+  <span class="labeled-detail">DNS:&nbsp;<span id="dnsStatus">?</span></span>
+  <span class="labeled-detail">WebRTC:&nbsp;<span id="webRtcStatus">?</span></span>
+  <span class="labeled-detail">Browser:&nbsp;<span id="browserStatus">?</span></span>
+  <span class="labeled-detail">Initial&nbsp;load:&nbsp;<span id="initialLoadStatus">&#x2713;</span></span>
   <br />
   <div class="details">next update in <span id="timeUntilNextPeriodicTests">30</span>s</div>
 </div>
@@ -31,6 +31,11 @@
 </noscript>
 
 <h3>Web Pings</h3>
+<div>
+  <span class="labeled-detail">Last:&nbsp;<span id="lastRTT">n/a</span></span>
+  <span class="labeled-detail">Average:&nbsp;<span id="avgRTT">n/a</span></span>
+  <span class="labeled-detail">Packet Loss:&nbsp;<span id="packetLoss">0%</span></span>
+</div>
 <div id="pingChart">
   <div id="secondLabels" class="row">
     <div class="minuteLabel"></div>
