@@ -8,9 +8,10 @@ intermittent network issues.
 
 - Reliable. Do not make the user guess if the website isn't loading because of their internet or if
   the website is down.
-- Fast website. Do not make the user wait, even on a slow connection.
+- Fast website. Do not make the user wait, even on a slow connection. Time to first paint, total
+  page size, and time to first test result should all be minimal.
 - Provide multiple tests that all work with just the browser.
-- Possible to understand for non-technical users.
+- Possible to understand test results for non-technical users.
 - Provide concise educational descriptions and links to learn more.
 - Allow for hosting outside of pinging.net (e.g. on private clouds).
 
