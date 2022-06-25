@@ -1,4 +1,4 @@
-import { createPopper } from "@popperjs/core";
+import { createPopper } from "@popperjs/core/lib/popper-lite.js";
 
 const GOOD = "&#x2713";
 const BAD = "&#x2717";
