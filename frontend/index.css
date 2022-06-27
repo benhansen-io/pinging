@@ -23,6 +23,7 @@ body {
 
 .labeled-detail {
   padding: 0.35em;
+  padding-right: 0em;
   color: black;
   text-decoration-style: dotted;
   text-decoration-thickness: 2%;
