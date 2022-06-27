@@ -1,5 +1,6 @@
+# ssh gcp
+ssh pinging@<public IP>
 
-# gcp only
 sudo pacman -Syu
 
 sudo pacman -S rsync htop tmux strace gdb ripgrep kakoune perf

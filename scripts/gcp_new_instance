@@ -3,4 +3,4 @@ set -euo pipefail
 
 ZONE=${1}
 
-gcloud compute instances create pinging-www --image-project=arch-linux-gce --image-family=arch --zone ${ZONE} --machine-type e2-micro --project pinging
+gcloud compute instances create pinging-www-$(date +%s) --image-project=arch-linux-gce --image-family=arch --zone ${ZONE} --machine-type e2-micro --project pinging

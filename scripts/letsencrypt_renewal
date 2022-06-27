@@ -3,7 +3,6 @@ set -euo pipefail
 cd $(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)
 
 #sudo pacman -S --needed certbot
-mkdir -p ~/letsencrypt/{work,config,log}
 DIR=./configs/letsencrypt
 echo "Use drill command to verify when DNS has propogated:"
 echo "drill _acme-challenge.pinging.net TXT"
