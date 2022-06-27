@@ -23,6 +23,9 @@ body {
 
 .labeled-detail {
   padding: 0.35em;
+  color: black;
+  text-decoration-style: dotted;
+  text-decoration-thickness: 2%;
 }
 
 #pingChart {
