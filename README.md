@@ -1,5 +1,7 @@
 # [Pinging.net](https://www.pinging.net)
 
+[![Screenshot](docs/images/2022-06-28-index.png)](https://www.pinging.net)
+
 Pinging.net quickly determines if you are online by running multiple tests. It then continues to
 monitor your connection via repeated tests including a "web ping" every second to help identify
 intermittent network issues.
@@ -22,6 +24,29 @@ Non-goals (currently):
 
 ## The Tests
 
+### Web Ping
+
+A Web Ping is sent every second.
+<a href="https://en.wikipedia.org/wiki/Ping_(networking_utility)">Ping</a> is a common network
+testing utility. A packet is sent to a computer over the network which replies with a response
+packet. If and how fast a response is received help determine network connection quality. Normally
+ping packets are sent using the
+<a href="https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol">ICMP</a> protocol but
+that is not possible from a web page. Instead a
+<a href="https://en.wikipedia.org/wiki/WebRTC">WebRTC</a> data channel message is sent to and
+returned from the server.
+<a href="https://en.wikipedia.org/wiki/User_Datagram_Protocol">UDP</a> is used for the underlying
+transport mechanism so dropped messages are not retried which is desired in order to determine
+packet loss.
+
+The round trip time of each ping is graphed as a dark green horizontal line for each second. It is
+also displayed in milliseconds for the last received ping and the average for all successful
+pings.
+
+Packet loss is when a ping response is not received. It is graphed as a red square. The percent of
+all pings that were lost is also displayed. Packet loss is caused by many different factors and
+potentially indicates issues with your internet connection.
+
 ### HTTP Test
 
 Makes a HTTP POST request with a random string body and verifies it is returned properly. Caching of
@@ -29,15 +54,9 @@ the request is also explicitly disabled. This test is run every 30 seconds.
 
 ### DNS Test
 
-A HTTP GET request to a [random-number]dns-check.pinging.net. Caching is explicitly disabled and the
-random number part of the subdomain prevents common caching of the DNS lookup. This test is run
-every 30 seconds.
-
-### Web Ping
-
-Every second a WebRTC message is sent and returned by the server. UDP is used for the underlying
-transport mechanism so dropped messages are not transparently retried. Dropped packets will show up
-as red squares.
+Test DNS is working by making a HTTP GET request to a [random-number]dns-check.pinging.net.
+Caching is explicitly disabled and the random number part of the subdomain prevents common caching
+of the DNS lookup. This test is run every 30 seconds.
 
 ### Browser Check
 
@@ -57,10 +76,10 @@ working at the time of loading the site.
 
 The backend is a single binary written in Rust that handles static file serving, APIs (including
 WebRTC), and www and https redirects. The frontend is static html and TypeScript. Pinging.net is
-deployed to cheap virtual private servers in multiple data centers and a DNS load balancer
+deployed to inexpensive virtual private servers in multiple data centers and a DNS load balancer
 (currently CloudFlare) is used to route traffic to the closest server.
 
-Since there is no protocol level (e.g. HTTP/WebRTC) load balancer or reverse proxy (e.g. no nginx),
+Since there is no protocol level load balancer (e.g. HTTP/WebRTC) or reverse proxy (e.g. no nginx),
 deployments are done by spinning up a new server and switching the DNS load balancer to use the new
 IP. The old IP is kept running for an hour to allow DNS caches to update and existing clients to
 refresh to the new server.

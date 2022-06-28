@@ -67,7 +67,7 @@
 </p>
 <p>
   Makes a HTTP POST request with a random string body and verifies it is returned properly. Caching
-  of the request is also explicitly disabled.
+  of the request is also explicitly disabled. This test is run every 30 seconds.
 </p>
 
 <h2 id="dns">DNS Test</h2>
@@ -77,9 +77,9 @@
   (e.g. 192.168.100.100).
 </p>
 <p>
-  Test that DNS is working by making a HTTP GET request to a [random-number]dns-check.pinging.net.
+  Test DNS is working by making a HTTP GET request to a [random-number]dns-check.pinging.net.
   Caching is explicitly disabled and the random number part of the subdomain prevents common caching
-  of the DNS lookup.
+  of the DNS lookup. This test is run every 30 seconds.
 </p>
 
 <h2 id="browser">Browser Check</h2>
