@@ -1,8 +1,93 @@
+:root {
+  color-scheme: light dark;
+}
 body {
-  background-color: #fbfbfb;
+  --background-color: #fbfbfb;
+  --font-color: black;
+  --border-color: black;
+  --page-border: #bbbbbb;
+  --footer-background-color: #eeeeee;
+  --footer-text-color: #333333;
+  --icon-invert: 0%;
+  --logo-color: #0c4c0c;
+}
+body.dark {
+  --background-color: #1c1c1c;
+  --font-color: #eeeeee;
+  --border-color: white;
+  --page-border: #404040;
+  --footer-background-color: #313131;
+  --footer-text-color: #cccccc;
+  --icon-invert: 95%;
+  --logo-color: #177f17;
+}
+
+body {
+  color: var(--font-color);
+  background: var(--background-color);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
   text-align: center;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  width: 100%;
+  margin: 0px;
+  padding: 1em 0em;
+  border-bottom: var(--page-border) 1px solid;
+}
+
+#header-content {
+  text-align: left;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.1em;
+  padding: 0px 2px;
+}
+
+#logo {
+  font-weight: bold;
+  color: var(--logo-color);
+}
+
+footer {
+  width: 100%;
+  margin: 0px;
+  margin-top: 1em;
+  padding: 1em 0em;
+  border-top: var(--page-border) 1px solid;
+  background-color: var(--footer-background-color);
+}
+
+#footer-contents {
+  display: flex;
+  gap: 2em;
+  max-width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+footer a {
+  color: var(--footer-text-color);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.dark-mode {
+  height: 1.8em;
+  filter: invert(var(--icon-invert));
+  position: relative;
+  top: -0.2em;
+}
+
+#page-content {
+  flex: 1;
+  margin: 2px;
 }
 
 #resources {
@@ -24,7 +109,7 @@ body {
 .labeled-detail {
   padding: 0.35em;
   padding-right: 0em;
-  color: black;
+  color: var(--font-color);
   text-decoration-style: dotted;
   text-decoration-thickness: 2%;
 }
@@ -38,7 +123,7 @@ body {
 }
 
 #pingChart .future {
-  background-color: #fbfbfb;
+  background-color: var(--background-color);
 }
 
 #pingChart .noresponse {
@@ -78,7 +163,7 @@ body {
 }
 
 #pingChart #secondLabels .sec {
-  border-top: 1px black solid;
+  border-top: 1px var(--border-color) solid;
   padding-top: 0.5em;
 }
 
@@ -101,22 +186,4 @@ body {
 
 #tooltip[data-show] {
   display: block;
-}
-
-.details {
-  color: #333333;
-}
-
-#logs {
-  display: none;
-}
-
-#logContents {
-  box-sizing: border-box;
-  background-color: #fefefe;
-  padding: 0.5em;
-  border: 1px solid #333333;
-  width: 100%;
-  max-width: 800px;
-  height: 30em;
 }

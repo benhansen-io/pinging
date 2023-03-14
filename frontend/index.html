@@ -17,91 +17,105 @@
   <link rel="manifest" href="/site.webmanifest" />
   <link rel="stylesheet" href="./index.css" />
 </head>
-<h1 id="summaryText">Your internet is <strong>online</strong></h1>
-
-<div id="status-board">
-  <a href="/about#http" class="labeled-detail" target="_blank">HTTP</a>:&nbsp;<span id="httpStatus">
-    ?
-  </span>
-  <a href="/about#dns" class="labeled-detail" target="_blank">DNS</a>:&nbsp;<span id="dnsStatus">
-    ?
-  </span>
-  <a href="/about#webping" class="labeled-detail" target="_blank">WebRTC</a>:&nbsp;<span
-    id="webRtcStatus"
-  >
-    ?
-  </span>
-  <a href="/about#browser" class="labeled-detail" target="_blank">Browser</a>:&nbsp;<span
-    id="browserStatus"
-  >
-    ?
-  </span>
-  <a href="/about#initial" class="labeled-detail" target="_blank">Initial&nbsp;load</a>:&nbsp;<span
-    id="initialLoadStatus"
-  >
-    &#x2713;
-  </span>
-  <br />
-  <div class="details">next update in <span id="timeUntilNextPeriodicTests">30</span>s</div>
-</div>
-
-<noscript>
-  <p>
-    JavaScript is disabled. The initial load test indicates your internet is online. Enable
-    JavaScript to run continuous tests on your internet connection.
-  </p>
-  <br />
-</noscript>
-
-<h3>Web Pings</h3>
-<div>
-  <a class="labeled-detail" href="/about#rtt" target="_blank">Last</a>:&nbsp;<span id="lastRTT"
-    >n/a
-  </span>
-  <a class="labeled-detail" href="/about#rtt" target="_blank">Average</a>:&nbsp;<span id="avgRTT"
-    >n/a
-  </span>
-  <a class="labeled-detail" href="/about#packetloss" target="_blank">Packet Loss</a>:&nbsp;<span
-    id="packetLoss"
-    >0%
-  </span>
-</div>
-<div id="pingChart">
-  <div id="secondLabels" class="row">
-    <div class="minuteLabel"></div>
-    <div class="sec" style="flex: 9 9 0; text-align: left">0s</div>
-    <div class="sec" style="flex: 2 2 0"></div>
-    <div class="sec" style="flex: 9 9 0">15</div>
-    <div class="sec" style="flex: 6 6 0"></div>
-    <div class="sec" style="flex: 9 9 0">30</div>
-    <div class="sec" style="flex: 6 6 0"></div>
-    <div class="sec" style="flex: 9 6 0">45</div>
-    <div class="sec" style="flex: 2 2 0"></div>
-    <div class="sec" style="flex: 9 9 0; text-align: right">59</div>
+<header>
+  <div id="header-content">
+    <span id="logo">Pinging.net</span> - Monitor Your Internet Connection
   </div>
+</header>
+<div id="page-content">
+  <h1 id="summaryText">Your internet is <strong>online</strong></h1>
+
+  <div id="status-board">
+    <a href="/about#http" class="labeled-detail" target="_blank">HTTP</a>:&nbsp;<span
+      id="httpStatus"
+    >
+      ?
+    </span>
+    <a href="/about#dns" class="labeled-detail" target="_blank">DNS</a>:&nbsp;<span id="dnsStatus">
+      ?
+    </span>
+    <a href="/about#webping" class="labeled-detail" target="_blank">WebRTC</a>:&nbsp;<span
+      id="webRtcStatus"
+    >
+      ?
+    </span>
+    <a href="/about#browser" class="labeled-detail" target="_blank">Browser</a>:&nbsp;<span
+      id="browserStatus"
+    >
+      ?
+    </span>
+    <a href="/about#initial" class="labeled-detail" target="_blank">Initial&nbsp;load</a
+    >:&nbsp;<span id="initialLoadStatus"> &#x2713; </span>
+    <br />
+    <div class="details">next update in <span id="timeUntilNextPeriodicTests">30</span>s</div>
+  </div>
+
+  <noscript>
+    <p>
+      JavaScript is disabled. The initial load test indicates your internet is online. Enable
+      JavaScript to run continuous tests on your internet connection.
+    </p>
+    <br />
+  </noscript>
+
+  <h3>Web Pings</h3>
+  <div>
+    <a class="labeled-detail" href="/about#rtt" target="_blank">Last</a>:&nbsp;<span id="lastRTT"
+      >n/a
+    </span>
+    <a class="labeled-detail" href="/about#rtt" target="_blank">Average</a>:&nbsp;<span id="avgRTT"
+      >n/a
+    </span>
+    <a class="labeled-detail" href="/about#packetloss" target="_blank">Packet Loss</a>:&nbsp;<span
+      id="packetLoss"
+      >0%
+    </span>
+  </div>
+  <div id="pingChart">
+    <div id="secondLabels" class="row">
+      <div class="minuteLabel"></div>
+      <div class="sec" style="flex: 9 9 0; text-align: left">0s</div>
+      <div class="sec" style="flex: 2 2 0"></div>
+      <div class="sec" style="flex: 9 9 0">15</div>
+      <div class="sec" style="flex: 6 6 0"></div>
+      <div class="sec" style="flex: 9 9 0">30</div>
+      <div class="sec" style="flex: 6 6 0"></div>
+      <div class="sec" style="flex: 9 6 0">45</div>
+      <div class="sec" style="flex: 2 2 0"></div>
+      <div class="sec" style="flex: 9 9 0; text-align: right">59</div>
+    </div>
+  </div>
+  <p class="details">
+    Currently sending and receiving pings from <span id="pingLocation">TBD</span>.
+  </p>
 </div>
-<div id="logs">
-  <h3>Logs</h3>
-  <textarea id="logContents" wrap="off"> </textarea>
-</div>
-
-<br />
-
-<p class="details">
-  Pinging.net quickly tests your internet connection to verify if you are online.
-  <br />
-  The tests are repeated to continually monitor your internet connection.
-</p>
-
-<p class="details">
-  Currently sending and receiving pings from <span id="pingLocation">TBD</span>. View our other
-  <a href="locations" target="_blank">locations</a>.
-</p>
-
-<p class="details">
-  Read more <a href="about" target="_blank">about</a> this site and the testing it performs.
-  <a id="logToggle" href="javascript:void(0);">View</a> log.
-</p>
+<footer>
+  <div id="footer-contents">
+    <a href="about" target="_blank">About</a>
+    <a href="https://github.com/benhansen-io/pinging" target="_blank">GitHub</a>
+    <img
+      id="dark-mode-auto"
+      class="dark-mode"
+      src="light_dark_mode_auto.svg"
+      title="Dark Mode Toggle. Currently set to OS default."
+    />
+    <img
+      id="dark-mode-dark"
+      class="dark-mode"
+      style="display: none"
+      src="dark_mode.svg"
+      title="Dark Mode Toggle.  Currently set to dark."
+    />
+    <img
+      id="dark-mode-light"
+      class="dark-mode"
+      style="display: none"
+      src="light_mode.svg"
+      title="Dark Mode Toggle.  Currently set to light."
+    />
+  </div>
+</footer>
 
 <div id="tooltip" role="tooltip">Tooltip</div>
 <script type="module" src="./index.ts"></script>
+<script type="module" src="./dark_mode.ts"></script>

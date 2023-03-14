@@ -299,10 +299,6 @@ function updatePacketLossSpan() {
 
 function log(this: any, ...varargs: any[]) {
   Function.prototype.bind.call(console.log, console).apply(this, varargs);
-  const args = Array.from(varargs).join(" ");
-  const time = new Date().toISOString();
-  const logContents = document.getElementById("logContents")!;
-  logContents.insertAdjacentHTML("afterbegin", time + ": " + args + "\n");
 }
 
 function changeSummaryText(state: string) {
@@ -611,18 +607,3 @@ function onTimer() {
   window.setTimeout(onTimer, waitMillis);
 }
 onTimer();
-
-const logToggle = document.getElementById("logToggle")!;
-function toggleLogDisplay() {
-  const logDiv = document.getElementById("logs")!;
-  if (!logDiv.style.display || logDiv.style.display === "none") {
-    var display = "block";
-    var linkText = "Hide";
-  } else {
-    var display = "none";
-    var linkText = "View";
-  }
-  logDiv.style.display = display;
-  logToggle.innerHTML = linkText;
-}
-logToggle.onclick = toggleLogDisplay;
