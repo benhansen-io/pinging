@@ -441,6 +441,11 @@ async function setupRtc() {
   if (rtcPeer) {
     rtcPeer.close();
   }
+  if (!RTCPeerConnection) {
+    log("No RTCPeerConnection");
+    document.getElementById("no-webrtc").style.display = "initial";
+    return;
+  }
   log("Attempting to connect via WebRTC");
   rtcPeer = new RTCPeerConnection();
   rtcPeerLocation = null;
