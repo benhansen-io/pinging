@@ -24,6 +24,7 @@ fi
 rsync -v ./configs/production.env pinging@$HOST:~/pinging/
 rsync -v ./configs/pinging.service root@$HOST:/etc/systemd/system/
 ssh pinging@$HOST "echo '$LOCATION_DESCRIPTION' > ~/pinging/location_description.txt; echo '$HOST' > ~/pinging/public_ip.txt"
-rsync -pv backend/target/release/pinging pinging@$HOST:~/pinging/pinging_tmp
+rsync -pv --progress backend/target/release/pinging pinging@$HOST:~/pinging/pinging_tmp
+echo "Done with rsyncing. Restarting service"
 ssh root@$HOST "setcap CAP_NET_BIND_SERVICE=+eip ~pinging/pinging/pinging_tmp && systemctl daemon-reload && mv ~pinging/pinging/pinging_tmp ~pinging/pinging/pinging && systemctl restart pinging"
 echo "Deploy complete. Remember to copy letsencrypt certs if needed."

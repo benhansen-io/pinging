@@ -4,6 +4,6 @@ set -euo pipefail
 REGION=${1}
 
 # From scratch to create a new snapshot
-#vultr-cli instance create --region ${REGION} --plan vc2-1c-1gb --ipv6 true --notify false --os 535 --ssh-keys 9e93e765-8eb5-436f-bec4-caac8420a9e1
+vultr-cli instance create --region ${REGION} --plan vc2-1c-1gb --ipv6 true --notify false --os 535 --ssh-keys 9e93e765-8eb5-436f-bec4-caac8420a9e1
 
-vultr-cli instance create --region ${REGION} --plan vc2-1c-1gb --ipv6 true --notify false --snapshot a11bd05d-d456-44f8-be25-04bae62aa85c
+# vultr-cli instance create --region ${REGION} --plan vc2-1c-1gb --ipv6 true --notify false --snapshot a11bd05d-d456-44f8-be25-04bae62aa85c

@@ -1,15 +1,25 @@
-# ssh gcp
+Start new servers
+
+# vultr only
+./scripts/vultr_new_instance sgp
+./scripts/vultr_new_instance cdg
+Note the ID e.g. a4a64d7b-6414-4423-80cf-96a0dc5bdae6
+vultr-cli instance get ID
+ssh root@<Main IP>
+
+# gcp only
+./scripts/gcp_new_instance us-central1-b
 ssh pinging@<public IP>
+open /etc/pacman.d/mirrorlist and comment all mirrors besides a couple US mirrors
+sudo pacman -S archlinux-keyring # if having trouble updating otherwise
 
 sudo pacman -Syu
-
-sudo pacman -S rsync htop tmux strace gdb ripgrep kakoune perf
+sudo pacman -S rsync htop tmux strace gdb ripgrep helix perf
 
 # gcp only
 sudo sed -i 's/PermitRootLogin no/PermitRootLogin yes/' /etc/ssh/sshd_config
 sudo mkdir -p ~root/.ssh
 sudo cp ~/.ssh/authorized_keys ~root/.ssh/
-# reboot or restart sshd
 
 # vultr only as user root
 useradd -m -G wheel pinging
@@ -22,5 +32,5 @@ ufw allow proto udp from any to any port 8888
 sudo reboot
 
 # Remember to:
-# 1) copy certs
+# 1) copy certs ./scripts/copy_certs
 # 2) deploy
