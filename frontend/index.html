@@ -1,126 +1,131 @@
 <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Pinging.net - Monitor Your Internet Connection</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta
+      name="description"
+      content="The smart way to quickly test and monitor your internet connection."
+    />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="stylesheet" href="./index.css" />
+    <script src="./dark_mode.ts"></script>
+  </head>
+  <body>
+    <header>
+      <div id="header-content">
+        <span id="logo">Pinging.net</span> - Monitor Your Internet Connection
+      </div>
+    </header>
+    <div id="page-content">
+      <h1 id="summaryText">Your internet is <strong>online</strong></h1>
 
-<head>
-  <meta charset="utf-8" />
-  <title>Pinging.net - Monitor Your Internet Connection</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
-  <meta
-    name="description"
-    content="The smart way to quickly test and monitor your internet connection."
-  />
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-  <link rel="manifest" href="/site.webmanifest" />
-  <link rel="stylesheet" href="./index.css" />
-</head>
-<header>
-  <div id="header-content">
-    <span id="logo">Pinging.net</span> - Monitor Your Internet Connection
-  </div>
-</header>
-<div id="page-content">
-  <h1 id="summaryText">Your internet is <strong>online</strong></h1>
+      <div id="status-board">
+        <a href="/about#http" class="labeled-detail" target="_blank">HTTP</a>:&nbsp;<span
+          id="httpStatus"
+        >
+          ?
+        </span>
+        <a href="/about#dns" class="labeled-detail" target="_blank">DNS</a>:&nbsp;<span
+          id="dnsStatus"
+        >
+          ?
+        </span>
+        <a href="/about#webping" class="labeled-detail" target="_blank">WebRTC</a>:&nbsp;<span
+          id="webRtcStatus"
+        >
+          ?
+        </span>
+        <a href="/about#browser" class="labeled-detail" target="_blank">Browser</a>:&nbsp;<span
+          id="browserStatus"
+        >
+          ?
+        </span>
+        <a href="/about#initial" class="labeled-detail" target="_blank">Initial&nbsp;load</a
+        >:&nbsp;<span id="initialLoadStatus"> &#x2713; </span>
+        <br />
+        <div class="details">next update in <span id="timeUntilNextPeriodicTests">30</span>s</div>
+      </div>
 
-  <div id="status-board">
-    <a href="/about#http" class="labeled-detail" target="_blank">HTTP</a>:&nbsp;<span
-      id="httpStatus"
-    >
-      ?
-    </span>
-    <a href="/about#dns" class="labeled-detail" target="_blank">DNS</a>:&nbsp;<span id="dnsStatus">
-      ?
-    </span>
-    <a href="/about#webping" class="labeled-detail" target="_blank">WebRTC</a>:&nbsp;<span
-      id="webRtcStatus"
-    >
-      ?
-    </span>
-    <a href="/about#browser" class="labeled-detail" target="_blank">Browser</a>:&nbsp;<span
-      id="browserStatus"
-    >
-      ?
-    </span>
-    <a href="/about#initial" class="labeled-detail" target="_blank">Initial&nbsp;load</a
-    >:&nbsp;<span id="initialLoadStatus"> &#x2713; </span>
-    <br />
-    <div class="details">next update in <span id="timeUntilNextPeriodicTests">30</span>s</div>
-  </div>
+      <div id="no-webrtc" style="display: none">
+        WebRTC is <b>disabled or not supported</b> by your browser. WebRTC is required for Web Pings
+        so while your internet connection may be working fine, web pings will not be successful.
+        <br />
+      </div>
+      <noscript>
+        <p>
+          JavaScript is disabled. The initial load test indicates your internet is online. Enable
+          JavaScript to run continuous tests on your internet connection.
+        </p>
+        <br />
+      </noscript>
 
-  <div id="no-webrtc" style="display: none">
-    WebRTC is <b>disabled or not supported</b> by your browser. WebRTC is required for Web Pings so
-    while your internet connection may be working fine, web pings will not be successful.
-    <br />
-  </div>
-  <noscript>
-    <p>
-      JavaScript is disabled. The initial load test indicates your internet is online. Enable
-      JavaScript to run continuous tests on your internet connection.
-    </p>
-    <br />
-  </noscript>
-
-  <h3>Web Pings</h3>
-  <div>
-    <a class="labeled-detail" href="/about#rtt" target="_blank">Last</a>:&nbsp;<span id="lastRTT"
-      >n/a
-    </span>
-    <a class="labeled-detail" href="/about#rtt" target="_blank">Average</a>:&nbsp;<span id="avgRTT"
-      >n/a
-    </span>
-    <a class="labeled-detail" href="/about#packetloss" target="_blank">Packet Loss</a>:&nbsp;<span
-      id="packetLoss"
-      >0%
-    </span>
-  </div>
-  <div id="pingChart">
-    <div id="secondLabels" class="row">
-      <div class="minuteLabel"></div>
-      <div class="sec" style="flex: 9 9 0; text-align: left">0s</div>
-      <div class="sec" style="flex: 2 2 0"></div>
-      <div class="sec" style="flex: 9 9 0">15</div>
-      <div class="sec" style="flex: 6 6 0"></div>
-      <div class="sec" style="flex: 9 9 0">30</div>
-      <div class="sec" style="flex: 6 6 0"></div>
-      <div class="sec" style="flex: 9 6 0">45</div>
-      <div class="sec" style="flex: 2 2 0"></div>
-      <div class="sec" style="flex: 9 9 0; text-align: right">59</div>
+      <h3>Web Pings</h3>
+      <div>
+        <a class="labeled-detail" href="/about#rtt" target="_blank">Last</a>:&nbsp;<span
+          id="lastRTT"
+          >n/a
+        </span>
+        <a class="labeled-detail" href="/about#rtt" target="_blank">Average</a>:&nbsp;<span
+          id="avgRTT"
+          >n/a
+        </span>
+        <a class="labeled-detail" href="/about#packetloss" target="_blank">Packet Loss</a
+        >:&nbsp;<span id="packetLoss">0% </span>
+      </div>
+      <div id="pingChart">
+        <div id="secondLabels" class="row">
+          <div class="minuteLabel"></div>
+          <div class="sec" style="flex: 9 9 0; text-align: left">0s</div>
+          <div class="sec" style="flex: 2 2 0"></div>
+          <div class="sec" style="flex: 9 9 0">15</div>
+          <div class="sec" style="flex: 6 6 0"></div>
+          <div class="sec" style="flex: 9 9 0">30</div>
+          <div class="sec" style="flex: 6 6 0"></div>
+          <div class="sec" style="flex: 9 6 0">45</div>
+          <div class="sec" style="flex: 2 2 0"></div>
+          <div class="sec" style="flex: 9 9 0; text-align: right">59</div>
+        </div>
+      </div>
+      <p class="details">
+        Currently sending and receiving pings from <span id="pingLocation">TBD</span>.
+      </p>
     </div>
-  </div>
-  <p class="details">
-    Currently sending and receiving pings from <span id="pingLocation">TBD</span>.
-  </p>
-</div>
-<footer>
-  <div id="footer-contents">
-    <a href="about" target="_blank">About</a>
-    <a href="https://github.com/benhansen-io/pinging" target="_blank">GitHub</a>
-    <img
-      id="dark-mode-auto"
-      class="dark-mode"
-      src="light_dark_mode_auto.svg"
-      title="Dark Mode Toggle. Currently set to OS default."
-    />
-    <img
-      id="dark-mode-dark"
-      class="dark-mode"
-      style="display: none"
-      src="dark_mode.svg"
-      title="Dark Mode Toggle.  Currently set to dark."
-    />
-    <img
-      id="dark-mode-light"
-      class="dark-mode"
-      style="display: none"
-      src="light_mode.svg"
-      title="Dark Mode Toggle.  Currently set to light."
-    />
-  </div>
-</footer>
+    <footer>
+      <div id="footer-contents">
+        <a href="about" target="_blank">About</a>
+        <a href="https://github.com/benhansen-io/pinging" target="_blank">GitHub</a>
+        <img
+          id="dark-mode-auto"
+          class="dark-mode"
+          src="light_dark_mode_auto.svg"
+          title="Dark Mode Toggle. Currently set to OS default."
+        />
+        <img
+          id="dark-mode-dark"
+          class="dark-mode"
+          style="display: none"
+          src="dark_mode.svg"
+          title="Dark Mode Toggle.  Currently set to dark."
+        />
+        <img
+          id="dark-mode-light"
+          class="dark-mode"
+          style="display: none"
+          src="light_mode.svg"
+          title="Dark Mode Toggle.  Currently set to light."
+        />
+      </div>
+    </footer>
 
-<div id="tooltip" role="tooltip">Tooltip</div>
-<script type="module" src="./index.ts"></script>
-<script type="module" src="./dark_mode.ts"></script>
+    <div id="tooltip" role="tooltip">Tooltip</div>
+    <script type="module" src="./index.ts"></script>
+  </body>
+</html>

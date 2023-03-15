@@ -1,7 +1,7 @@
 :root {
   color-scheme: light dark;
 }
-body {
+:root {
   --background-color: #fbfbfb;
   --font-color: black;
   --border-color: black;
@@ -11,7 +11,7 @@ body {
   --icon-invert: 0%;
   --logo-color: #0c4c0c;
 }
-body.dark {
+:root.dark {
   --background-color: #1c1c1c;
   --font-color: #eeeeee;
   --border-color: white;

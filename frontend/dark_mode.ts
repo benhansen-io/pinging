@@ -1,30 +1,35 @@
-const darkModeButtons = document.querySelectorAll(".dark-mode");
-darkModeButtons.forEach((elem) =>
-  elem.addEventListener("click", (event) => {
-    let next;
-    let src;
-    switch (event.target.id) {
-      case "dark-mode-auto":
-        next = "dark";
-        break;
-      case "dark-mode-dark":
-        next = "light";
-        break;
-      case "dark-mode-light":
-        next = "auto";
-        break;
-      default:
-        return console.error("Unknown case");
-    }
-    switchDarkMode(next);
-  })
-);
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".dark-mode").forEach((elem) =>
+    elem.addEventListener("click", (event) => {
+      let next;
+      let src;
+      switch (event.target.id) {
+        case "dark-mode-auto":
+          next = "dark";
+          break;
+        case "dark-mode-dark":
+          next = "light";
+          break;
+        case "dark-mode-light":
+          next = "auto";
+          break;
+        default:
+          return console.error("Unknown case");
+      }
+      switchDarkMode(next);
+    })
+  );
+});
+
 function switchDarkMode(mode: string) {
-  darkModeButtons.forEach((elem) => (elem.style.display = "none"));
+  document
+    .querySelectorAll(".dark-mode")
+    .forEach((elem) => (elem.style.display = "none"));
   let nextElem = document.getElementById("dark-mode-" + mode);
   nextElem.style.display = "initial";
-  document.body.classList.remove("light");
-  document.body.classList.remove("dark");
+  document.documentElement.classList.remove("light");
+  document.documentElement.classList.remove("dark");
+  document.documentElement.classList.remove("auto");
   if (mode == "auto") {
     localStorage.removeItem("dark-mode");
     if (
@@ -38,13 +43,18 @@ function switchDarkMode(mode: string) {
   } else {
     localStorage.setItem("dark-mode", mode);
   }
-  document.body.classList.add(mode);
+  document.documentElement.classList.add(mode);
 }
 function readUsersDarkModePreference() {
   let mode = localStorage.getItem("dark-mode");
   if (mode === null) {
     mode = "auto";
   }
-  switchDarkMode(mode);
+  // Attach the correct html tag class now
+  document.documentElement.classList.add(mode);
+  // Do a full switch (with icons) after we have them loaded
+  document.addEventListener("DOMContentLoaded", () => {
+    switchDarkMode(mode);
+  });
 }
 readUsersDarkModePreference();
