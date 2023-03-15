@@ -13,7 +13,9 @@ use tracing::error;
 ///
 /// Must be called from a tokio runtime context.
 pub fn launch_redirect_to_https_server(addr: SocketAddr) {
-    let app = Router::new().route("/*path", get(redirect_handler));
+    let app = Router::new()
+        .route("/", get(redirect_handler))
+        .route("/*path", get(redirect_handler));
     let _ = tokio::spawn(async move {
         axum_server::bind(addr)
             .http_config(super::get_http_config())
