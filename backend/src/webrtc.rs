@@ -1,14 +1,11 @@
 use anyhow::Context;
-use axum::{
-    body::Bytes,
-    extract::{ContentLengthLimit, Extension},
-};
+use axum::{body::Bytes, extract::Extension};
 use tracing::warn;
 use webrtc_unreliable::{Server as RtcServer, SessionEndpoint};
 
 pub async fn new_rtc_session(
-    data: ContentLengthLimit<Bytes, 1024>,
     Extension(rtc_session_endpoint): Extension<SessionEndpoint>,
+    data: Bytes,
 ) -> Result<String, String> {
     Ok(rtc_session_endpoint
         .clone()

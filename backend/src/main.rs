@@ -1,7 +1,7 @@
 use anyhow::{bail, Context};
 use axum::{
     error_handling::HandleErrorLayer,
-    extract::{ContentLengthLimit, Extension, Host, OriginalUri},
+    extract::{DefaultBodyLimit, Extension, Host, OriginalUri},
     handler::Handler,
     http::{header, HeaderValue, Method, StatusCode},
     middleware,
@@ -44,8 +44,8 @@ async fn dns_check(OriginalUri(original_uri): OriginalUri, host: Host) -> String
 }
 
 /// HTTP ping
-async fn ping(data: ContentLengthLimit<String, 60>) -> String {
-    data.0
+async fn ping(data: String) -> String {
+    data
 }
 
 fn log_env_variables() {
@@ -128,12 +128,13 @@ async fn main() -> anyhow::Result<()> {
             "/metrics",
             get(move || std::future::ready(metrics_recorder.render())),
         )
-        .fallback(static_files::get_static_file_service(&public_dir))
+        .fallback_service(static_files::get_static_file_service(&public_dir))
         .layer(
             tower::builder::ServiceBuilder::new()
                 .layer(HandleErrorLayer::new(handle_timeout_error))
                 .timeout(Duration::from_secs(30))
                 .layer(middleware::from_fn(metrics::track_metrics))
+                .layer(DefaultBodyLimit::max(1024))
                 .layer(Extension(webrtc_session_endpoint))
                 .layer(SetResponseHeaderLayer::overriding(
                     header::CACHE_CONTROL,
