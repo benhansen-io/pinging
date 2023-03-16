@@ -464,10 +464,16 @@ async function setupRtc() {
   };
   const offer = await rtcPeer.createOffer();
   await rtcPeer.setLocalDescription(offer);
-  const response = await fetch("/new_rtc_session", {
-    method: "POST",
-    body: rtcPeer.localDescription!.sdp,
-  });
+  const response = await fetch(
+    "/new_rtc_session?num_successful=" +
+      numSuccessfulPings.toString() +
+      "&num_timeout=" +
+      numTimeoutPings.toString(),
+    {
+      method: "POST",
+      body: rtcPeer.localDescription!.sdp,
+    }
+  );
   const resp_json = await response.json();
   await rtcPeer.setRemoteDescription(
     new RTCSessionDescription(resp_json.answer)

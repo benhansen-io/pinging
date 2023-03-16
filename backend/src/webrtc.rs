@@ -1,12 +1,32 @@
 use anyhow::Context;
-use axum::{body::Bytes, extract::Extension};
+use axum::{
+    body::Bytes,
+    extract::{Extension, Query},
+};
+use serde::Deserialize;
 use tracing::warn;
 use webrtc_unreliable::{Server as RtcServer, SessionEndpoint};
 
+#[derive(Deserialize)]
+pub struct NewSessionParams {
+    num_successful: Option<i64>,
+    num_timeout: Option<i64>,
+}
+
 pub async fn new_rtc_session(
+    params: Query<NewSessionParams>,
     Extension(rtc_session_endpoint): Extension<SessionEndpoint>,
     data: Bytes,
 ) -> Result<String, String> {
+    if let (Some(num_successful), Some(num_timeout)) = (params.num_successful, params.num_timeout) {
+        let first = if num_successful + num_timeout == 0 {
+            "1"
+        } else {
+            "0"
+        };
+        metrics::increment_counter!("new_rtc_sessions_total", "first" => first);
+    }
+
     Ok(rtc_session_endpoint
         .clone()
         .session_request(futures::stream::once(futures::future::ok::<
@@ -60,6 +80,15 @@ pub async fn launch_and_run_webrtc(
             for line in data.split('\n') {
                 if line.starts_with("LOC?") {
                     send_location = true;
+                } else if let Some(ping_num_str) = line.strip_prefix("NUM:\t") {
+                    let ping_num: u64 = ping_num_str.parse().unwrap_or(0);
+                    if record_ping_num(ping_num) {
+                        metrics::histogram!(
+                            "webrtc_ping_num_hit_in_session",
+                            ping_num as f64,
+                            &[("num", ping_num_str.to_string())]
+                        );
+                    }
                 }
                 last_line = line;
             }
@@ -81,4 +110,13 @@ pub async fn launch_and_run_webrtc(
     });
 
     Ok(session_endpoint)
+}
+
+fn record_ping_num(ping_num: u64) -> bool {
+    const HOUR: u64 = 60 * 60;
+    const DAY: u64 = 24 * HOUR;
+    match ping_num {
+        1 | 3 | 10 | 60 | 600 | HOUR | DAY => true,
+        _ => false,
+    }
 }
