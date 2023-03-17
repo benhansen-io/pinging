@@ -79,7 +79,6 @@ footer a {
 }
 
 .dark-mode {
-  height: 1.8em;
   filter: invert(var(--icon-invert));
   position: relative;
   top: -0.2em;
