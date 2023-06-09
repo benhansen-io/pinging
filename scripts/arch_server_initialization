@@ -9,8 +9,9 @@ ssh root@<Main IP>
 
 # gcp only
 ./scripts/gcp_new_instance us-central1-b
-ssh pinging@<public IP>
-open /etc/pacman.d/mirrorlist and comment all mirrors besides a couple US mirrors
+ssh pinging@<PUBLIC_IP>
+echo 'Server = https://mirrors.kernel.org/archlinux/$repo/os/$arch
+Server = https://mirrors.mit.edu/archlinux/$repo/os/$arch' | sudo tee /etc/pacman.d/mirrorlist
 sudo pacman -S archlinux-keyring # if having trouble updating otherwise
 
 sudo pacman -Syu
@@ -31,6 +32,5 @@ ufw allow proto udp from any to any port 8888
 
 sudo reboot
 
-# Remember to:
-# 1) copy certs ./scripts/copy_certs
-# 2) deploy
+./scripts/copy_certs <PUBLIC_IP>
+./scripts/deploy <PUBLIC_IP> "Council Bluffs, Iowa, USA (Google Cloud)" FULL
