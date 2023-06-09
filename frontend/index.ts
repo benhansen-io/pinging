@@ -57,6 +57,9 @@ const pingResults: (string | number)[] = [];
 
 // Used to ensure the Last RTT is not overwritten with an older response.
 let lastSuccessPingMillis: number | null = null;
+
+let maxPing: number = NaN;
+let minPing: number = NaN;
 // Used to compute average round trip time and packet loss.
 let totalRoundTripTime: number = 0;
 let numSuccessfulPings: number = 0;
@@ -263,12 +266,20 @@ function setPingResultForSecond(
 const lastRoundTripTimeSpan: HTMLElement = document.getElementById("lastRTT")!;
 const averageRoundTripTimeSpan: HTMLElement =
   document.getElementById("avgRTT")!;
+const minRoundTripTimeSpan: HTMLElement = document.getElementById("minRTT")!;
+const maxRoundTripTimeSpan: HTMLElement = document.getElementById("maxRTT")!;
 
 function updatePingStatsOnSuccess(sentMillis: number, receivedMillis: number) {
   let rtt = receivedMillis - sentMillis;
   if (sentMillis > receivedMillis) {
     // Or should we skip counting this?
     rtt = 0;
+  }
+  if (isNaN(minPing) || rtt < minPing) {
+    minPing = rtt;
+  }
+  if (isNaN(maxPing) || rtt > maxPing) {
+    maxPing = rtt;
   }
   totalRoundTripTime += rtt;
   numSuccessfulPings++;
@@ -279,6 +290,8 @@ function updatePingStatsOnSuccess(sentMillis: number, receivedMillis: number) {
 
   const avgRTT = Math.round(totalRoundTripTime / numSuccessfulPings);
   averageRoundTripTimeSpan.innerHTML = avgRTT + " ms";
+  minRoundTripTimeSpan.innerHTML = minPing + "ms";
+  maxRoundTripTimeSpan.innerHTML = maxPing + "ms";
   updatePacketLossSpan();
 }
 
