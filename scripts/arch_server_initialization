@@ -4,7 +4,7 @@ Start new servers
 ./scripts/vultr_new_instance sgp
 ./scripts/vultr_new_instance cdg
 Note the ID e.g. a4a64d7b-6414-4423-80cf-96a0dc5bdae6
-vultr-cli instance get ID
+vultr-cli instance get <ID> | rg MAIN
 ssh root@<Main IP>
 
 # gcp only
@@ -33,4 +33,4 @@ ufw allow proto udp from any to any port 8888
 sudo reboot
 
 ./scripts/copy_certs <PUBLIC_IP>
-./scripts/deploy <PUBLIC_IP> "Council Bluffs, Iowa, USA (Google Cloud)" FULL
+./scripts/deploy <PUBLIC_IP> <LOCATION_DESCRIPTION> FULL
