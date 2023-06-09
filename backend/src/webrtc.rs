@@ -19,7 +19,7 @@ pub async fn new_rtc_session(
     data: Bytes,
 ) -> Result<String, String> {
     if let (Some(num_successful), Some(num_timeout)) = (params.num_successful, params.num_timeout) {
-        let first = if num_successful + num_timeout == 0 {
+        let first = if num_successful == 0 && num_timeout < 5 {
             "1"
         } else {
             "0"
