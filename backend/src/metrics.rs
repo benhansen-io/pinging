@@ -1,7 +1,20 @@
 use axum::{http::Request, middleware::Next, response::IntoResponse};
 use metrics_exporter_prometheus::{Matcher, PrometheusBuilder, PrometheusHandle};
+use metrics_process::Collector;
 
 pub fn setup_metrics_recorder() -> PrometheusHandle {
+    std::thread::Builder::new()
+        .name("metrics_process".to_owned())
+        .spawn(|| {
+            let collector = Collector::default();
+            collector.describe();
+            loop {
+                collector.collect();
+                std::thread::sleep(std::time::Duration::from_secs(1));
+            }
+        })
+        .unwrap();
+
     const EXPONENTIAL_SECONDS: &[f64] = &[
         0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0, 10.0,
     ];
