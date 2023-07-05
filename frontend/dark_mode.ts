@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
           return console.error("Unknown case");
       }
       switchDarkMode(next);
-    })
+    }),
   );
 });
 

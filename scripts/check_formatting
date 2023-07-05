@@ -2,7 +2,7 @@
 set -euo pipefail
 cd $(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)
 
-npx prettier -c frontend/*.{html,css,ts}
+npx prettier@3.0.0 -c frontend/*.{html,css,ts}
 
 pushd backend
 cargo fmt --check -v

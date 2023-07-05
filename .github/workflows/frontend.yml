@@ -29,4 +29,4 @@ jobs:
         with:
           node-version: 18
       - name: Code Formatter
-        run: npx prettier -c frontend/*.{html,css,ts}
+        run: npx prettier@3.0.0 -c frontend/*.{html,css,ts}

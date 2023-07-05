@@ -181,7 +181,7 @@ function createNewPingingRow(sec: number) {
 function setPingResultForSecond(
   sentMillis: number,
   result: string,
-  nowMillis = Date.now()
+  nowMillis = Date.now(),
 ) {
   const elapsed = nowMillis - sentMillis;
   const sec = millisToWholeSec(sentMillis);
@@ -195,7 +195,7 @@ function setPingResultForSecond(
       "had result",
       result,
       "in",
-      elapsed + "ms"
+      elapsed + "ms",
     );
   }
   let toSave: string | number = result;
@@ -398,7 +398,7 @@ async function testHttpOrDns(testName: string) {
       {
         method: "GET",
         cache: "no-store",
-      }
+      },
     );
   }
 
@@ -411,7 +411,7 @@ async function testHttpOrDns(testName: string) {
     log(
       testName.toUpperCase(),
       "test completed successfully in",
-      duration + "ms"
+      duration + "ms",
     );
     updateStatus(testName, GOOD);
   } catch (error) {
@@ -485,11 +485,11 @@ async function setupRtc() {
     {
       method: "POST",
       body: rtcPeer.localDescription!.sdp,
-    }
+    },
   );
   const resp_json = await response.json();
   await rtcPeer.setRemoteDescription(
-    new RTCSessionDescription(resp_json.answer)
+    new RTCSessionDescription(resp_json.answer),
   );
   var candidate = new RTCIceCandidate(resp_json.candidate);
   await rtcPeer.addIceCandidate(candidate);
@@ -553,7 +553,7 @@ function getEventTimestamp(evt: Event, nowMillis: number, sentMillis: number) {
       "Event time in the future",
       sentMillis,
       eventStamp,
-      nowMillis
+      nowMillis,
     );
     return nowMillis;
   }
@@ -565,7 +565,7 @@ function getEventTimestamp(evt: Event, nowMillis: number, sentMillis: number) {
       "Event time too far in past",
       sentMillis,
       eventStamp,
-      nowMillis
+      nowMillis,
     );
     return nowMillis;
   }
@@ -600,7 +600,7 @@ function onPingResponse(evt: MessageEvent) {
         console.error(
           "rtcPeerLocation does not match existing:",
           newRtcPeerLocation,
-          rtcPeerLocation
+          rtcPeerLocation,
         );
       }
     }
@@ -610,7 +610,7 @@ function onPingResponse(evt: MessageEvent) {
   setPingResultForSecond(sentMillis, PING_SUCCESS, receivedMillis);
   if (lastRtcConnectAttempt + RECONNECT_WEBRTC_PERIOD <= Date.now()) {
     log(
-      "Reconnecting WebRTC connection in case the server connection info has updated."
+      "Reconnecting WebRTC connection in case the server connection info has updated.",
     );
     setupRtc();
   }
