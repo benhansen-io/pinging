@@ -290,8 +290,8 @@ function updatePingStatsOnSuccess(sentMillis: number, receivedMillis: number) {
 
   const avgRTT = Math.round(totalRoundTripTime / numSuccessfulPings);
   averageRoundTripTimeSpan.innerHTML = avgRTT + " ms";
-  minRoundTripTimeSpan.innerHTML = minPing + "ms";
-  maxRoundTripTimeSpan.innerHTML = maxPing + "ms";
+  minRoundTripTimeSpan.innerHTML = Math.round(minPing) + " ms";
+  maxRoundTripTimeSpan.innerHTML = Math.round(maxPing) + " ms";
   updatePacketLossSpan();
 }
 
