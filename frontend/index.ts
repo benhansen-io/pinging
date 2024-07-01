@@ -306,7 +306,7 @@ function updatePacketLossSpan() {
   if (total == 0) {
     return;
   }
-  const percent = Math.round((numTimeoutPings / total) * 100);
+  const percent = ((numTimeoutPings / total) * 100).toFixed(2);
   packetLossSpan.innerHTML = String(percent) + "%";
 }
 
