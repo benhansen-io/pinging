@@ -20,13 +20,10 @@ async fn get_new_uri(req_parts: &mut axum::http::request::Parts) -> Option<Uri> 
 }
 
 // Redirect to www 3rd level domain if the request is for a 2nd level domain.
-pub async fn redirect_to_www_middleware_fn<B>(
-    req: axum::http::Request<B>,
-    next: axum::middleware::Next<B>,
-) -> Response
-where
-    B: Send,
-{
+pub async fn redirect_to_www_middleware_fn(
+    req: axum::http::Request<axum::body::Body>,
+    next: axum::middleware::Next,
+) -> Response {
     let (mut parts, body) = req.into_parts();
 
     if let Some(uri) = get_new_uri(&mut parts).await {
@@ -45,7 +42,7 @@ mod tests {
 
     async fn get_new_uri_wrapper(uri: &str) -> Option<Uri> {
         let request = Request::builder().method("GET").uri(uri).body(()).unwrap();
-        let (mut parts, body) = request.into_parts();
+        let (mut parts, _body) = request.into_parts();
 
         get_new_uri(&mut parts).await
     }

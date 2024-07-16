@@ -8,7 +8,7 @@ use std::{convert::Infallible, path::PathBuf};
 use tower::{Service, ServiceExt};
 use tower_http::services::{fs::ServeFileSystemResponseBody, ServeDir, ServeFile};
 
-fn append_html<B>(mut req: Request<B>) -> Request<B> {
+fn append_html(mut req: Request<Body>) -> Request<Body> {
     let uri: Uri = format!("{}.html", req.uri())
         .parse()
         .unwrap_or_else(|_| req.uri().clone());

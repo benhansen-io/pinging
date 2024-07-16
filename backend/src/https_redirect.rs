@@ -16,12 +16,8 @@ pub fn launch_redirect_to_https_server(addr: SocketAddr) {
     let app = Router::new()
         .route("/", get(redirect_handler))
         .route("/*path", get(redirect_handler));
-    let _ = tokio::spawn(async move {
-        axum_server::bind(addr)
-            .http_config(super::get_http_config())
-            .serve(app.into_make_service())
-            .await
-    });
+    let _ =
+        tokio::spawn(async move { axum_server::bind(addr).serve(app.into_make_service()).await });
 }
 
 async fn redirect_handler(uri: Uri, host: Host) -> Result<Redirect, (StatusCode, &'static str)> {

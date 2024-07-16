@@ -8,7 +8,6 @@ use axum::{
     routing::{get, post},
     BoxError, Router,
 };
-use axum_server::HttpConfig;
 use std::{net::SocketAddr, time::Duration};
 use tower_http::set_header::SetResponseHeaderLayer;
 use tracing::info;
@@ -56,12 +55,6 @@ fn log_env_variables() {
             }
         }
     }
-}
-
-fn get_http_config() -> HttpConfig {
-    axum_server::HttpConfig::new()
-        .http1_header_read_timeout(Duration::from_secs(10))
-        .build()
 }
 
 async fn handle_timeout_error(err: BoxError) -> (StatusCode, String) {
@@ -160,17 +153,9 @@ async fn main() -> anyhow::Result<()> {
             let config = axum_server::tls_rustls::RustlsConfig::from_pem_file(tls_cert, tls_key)
                 .await
                 .context("failed to loading tls from pem file")?;
-            tokio::spawn(
-                axum_server::bind_rustls(main_addr, config)
-                    .http_config(get_http_config())
-                    .serve(app.into_make_service()),
-            )
+            tokio::spawn(axum_server::bind_rustls(main_addr, config).serve(app.into_make_service()))
         }
-        (None, None) => tokio::spawn(
-            axum_server::bind(main_addr)
-                .http_config(get_http_config())
-                .serve(app.into_make_service()),
-        ),
+        (None, None) => tokio::spawn(axum_server::bind(main_addr).serve(app.into_make_service())),
         _ => {
             bail!("One of PINGING_TLS_CERT or PINGING_TLS_KEY specified but not the other.");
         }

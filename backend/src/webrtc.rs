@@ -5,7 +5,7 @@ use axum::{
 };
 use serde::Deserialize;
 use tracing::warn;
-use webrtc_unreliable::{Server as RtcServer, SessionEndpoint};
+use webrtc_unreliable::SessionEndpoint;
 
 #[derive(Deserialize)]
 pub struct NewSessionParams {
@@ -24,7 +24,7 @@ pub async fn new_rtc_session(
         } else {
             "0"
         };
-        metrics::increment_counter!("new_rtc_sessions_total", "first" => first);
+        metrics::counter!("new_rtc_sessions_total", "first" => first).increment(1);
     }
 
     Ok(rtc_session_endpoint
@@ -49,9 +49,9 @@ pub async fn launch_and_run_webrtc(
         public_webrtc_addr.port(),
     );
 
-    let mut rtc_server = RtcServer::new(webrtc_listen_addr, public_webrtc_addr)
-        .await
-        .context("could not start RTC server")?;
+    let mut rtc_server =
+        webrtc_unreliable::tokio::new_server(webrtc_listen_addr, public_webrtc_addr)
+            .context("could not start RTC server")?;
 
     let session_endpoint = rtc_server.session_endpoint();
 
@@ -60,7 +60,7 @@ pub async fn launch_and_run_webrtc(
         loop {
             let (message_type, remote_addr) = match rtc_server.recv().await {
                 Ok(received) => {
-                    metrics::increment_counter!("webrtc_pings_total");
+                    metrics::counter!("webrtc_pings_total").increment(1);
                     buf.clear();
                     buf.extend(received.message.as_slice());
                     (received.message_type, received.remote_addr)
@@ -85,9 +85,9 @@ pub async fn launch_and_run_webrtc(
                     if record_ping_num(ping_num) {
                         metrics::histogram!(
                             "webrtc_ping_num_hit_in_session",
-                            ping_num as f64,
                             &[("num", ping_num_str.to_string())]
-                        );
+                        )
+                        .record(ping_num as f64);
                     }
                 }
                 last_line = line;
