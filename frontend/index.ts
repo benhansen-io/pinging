@@ -58,6 +58,9 @@ const pingResults: (string | number)[] = [];
 // Used to ensure the Last RTT is not overwritten with an older response.
 let lastSuccessPingMillis: number | null = null;
 
+// Used to only run the DNS tests once.
+var firstTest = true;
+
 let maxPing: number = NaN;
 let minPing: number = NaN;
 // Used to compute average round trip time and packet loss.
@@ -424,9 +427,12 @@ async function testHttpOrDns(testName: string) {
 
 function runPeriodicTests() {
   updateStatus("http", UNKNOWN);
-  updateStatus("dns", UNKNOWN);
   testHttpOrDns("http");
-  testHttpOrDns("dns");
+  if (firstTest) {
+    updateStatus("dns", UNKNOWN);
+    testHttpOrDns("dns");
+    firstTest = false;
+  }
   if (nextPeriodicTests <= Date.now()) {
     nextPeriodicTests = Date.now() + PERIODIC_TEST_PERIOD;
   }
