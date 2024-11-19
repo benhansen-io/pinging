@@ -99,6 +99,20 @@ Then run scripts/build (build only), scripts/run_locally (build and run locally)
 Currently only Linux is tested. I am open to contributions to help with developing or running on
 other platforms.
 
+## Docker
+
+A Dockerfile is provided for building and running the server. To build the Docker image, run:
+
+```sh
+docker build -t pinging:latest .
+```
+
+To run the Docker image, run:
+
+```sh
+docker run --env-file ./configs/docker.env -p 8000:8000 -p 8888:8888/udp pinging:latest
+```
+
 ## Contributing
 
 Contributions are welcome. Thanks in advance for your help.
