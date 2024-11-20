@@ -96,8 +96,12 @@ pub async fn launch_and_run_webrtc(
             // only allocate storage when sending the location since that is not very frequent
             let storage_when_sending_location: String;
             if send_location {
-                storage_when_sending_location =
-                    format!("LOC:\t{}\n{}", &location_description, last_line);
+                storage_when_sending_location = format!(
+                    "LOC:\t{} ({})\n{}",
+                    &location_description,
+                    public_webrtc_addr.ip(),
+                    last_line
+                );
                 to_send = &storage_when_sending_location;
             }
             let send_result = rtc_server
