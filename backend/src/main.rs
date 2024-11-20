@@ -78,9 +78,18 @@ async fn main() -> anyhow::Result<()> {
     info!(concat!("Repo git hash: ", env!("GIT_HASH")));
     log_env_variables();
 
-    let public_webrtc_addr: std::net::SocketAddr = get_req_env_var("PINGING_PUBLIC_WEBRTC_ADDR")?
-        .parse()
-        .context("failed to parse PINGING_PUBLIC_WEBRTC_ADDR")?;
+    let mut public_webrtc_addr: std::net::SocketAddr =
+        get_req_env_var("PINGING_PUBLIC_WEBRTC_ADDR")?
+            .parse()
+            .context("failed to parse PINGING_PUBLIC_WEBRTC_ADDR")?;
+
+    if public_webrtc_addr.ip().is_unspecified() {
+        info!("Public webrtc address is unspecified; getting public ip");
+        public_webrtc_addr = std::net::SocketAddr::new(
+            public_ip::addr().await.context("failed to get public ip")?,
+            public_webrtc_addr.port(),
+        );
+    };
 
     let location_description = get_req_env_var("PINGING_LOCATION_DESCRIPTION")?;
 
