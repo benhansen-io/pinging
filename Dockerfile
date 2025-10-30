@@ -12,7 +12,7 @@ COPY ./backend /app
 RUN cargo build --release
 
 # Runtime stage
-FROM debian:bookworm-slim AS run
+FROM debian:trixie-slim AS run
 RUN apt-get update && \
   apt-get install -y ca-certificates && \
   apt-get clean && \
