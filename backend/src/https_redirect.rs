@@ -15,7 +15,7 @@ use tracing::error;
 pub fn launch_redirect_to_https_server(addr: SocketAddr) {
     let app = Router::new()
         .route("/", get(redirect_handler))
-        .route("/*path", get(redirect_handler));
+        .route("/{*path}", get(redirect_handler));
     let _ =
         tokio::spawn(async move { axum_server::bind(addr).serve(app.into_make_service()).await });
 }
