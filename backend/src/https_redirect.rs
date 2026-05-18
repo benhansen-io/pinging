@@ -1,12 +1,12 @@
 use std::{convert::TryFrom, net::SocketAddr};
 
 use axum::{
-    extract::Host,
     http::{uri::Authority, StatusCode, Uri},
     response::Redirect,
     routing::get,
     Router,
 };
+use axum_extra::{headers, TypedHeader};
 use tracing::error;
 
 /// Launch a trivial server listening to HTTP to redirect to HTTPS.
@@ -20,12 +20,15 @@ pub fn launch_redirect_to_https_server(addr: SocketAddr) {
         tokio::spawn(async move { axum_server::bind(addr).serve(app.into_make_service()).await });
 }
 
-async fn redirect_handler(uri: Uri, host: Host) -> Result<Redirect, (StatusCode, &'static str)> {
+async fn redirect_handler(
+    uri: Uri,
+    host: TypedHeader<headers::Host>,
+) -> Result<Redirect, (StatusCode, &'static str)> {
     let mut parts = uri.clone().into_parts();
     parts.scheme = Some(axum::http::uri::Scheme::HTTPS);
     if parts.authority.is_none() {
         // This might not work for hosts with a port but that is not expected in production.
-        parts.authority = Some(Authority::try_from(host.0).map_err(|_| {
+        parts.authority = Some(Authority::try_from(host.hostname()).map_err(|_| {
             (
                 StatusCode::BAD_REQUEST,
                 "Host given not convertible to Authority",

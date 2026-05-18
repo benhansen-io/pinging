@@ -1,13 +1,14 @@
 use anyhow::{bail, Context};
 use axum::{
     error_handling::HandleErrorLayer,
-    extract::{DefaultBodyLimit, Extension, Host, OriginalUri},
+    extract::{DefaultBodyLimit, Extension, OriginalUri},
     handler::Handler,
     http::{header, HeaderValue, Method, StatusCode},
     middleware,
     routing::{get, post},
     BoxError, Router,
 };
+use axum_extra::{headers, TypedHeader};
 use std::{net::SocketAddr, time::Duration};
 use tower_http::set_header::SetResponseHeaderLayer;
 use tracing::info;
@@ -34,8 +35,11 @@ fn get_opt_env_var(name: &str) -> anyhow::Result<Option<String>> {
 }
 
 /// Return the client generated random number that is prefixed to the host.
-async fn dns_check(OriginalUri(original_uri): OriginalUri, host: Host) -> String {
-    let mut host = original_uri.host().unwrap_or(&host.0).to_owned();
+async fn dns_check(
+    OriginalUri(original_uri): OriginalUri,
+    host: TypedHeader<headers::Host>,
+) -> String {
+    let mut host = original_uri.host().unwrap_or(&host.hostname()).to_owned();
     if let Some(pos) = host.find("dns-check") {
         host.truncate(pos);
     }
