@@ -1,21 +1,16 @@
 Start new servers
 
 # vultr only
-./scripts/vultr_new_instance sgp
 ./scripts/vultr_new_instance cdg
-Note the ID e.g. a4a64d7b-6414-4423-80cf-96a0dc5bdae6
+# Note the ID e.g. a4a64d7b-6414-4423-80cf-96a0dc5bdae6
 vultr-cli instance get <ID> | rg MAIN
 ssh root@<Main IP>
 
 # gcp only
 ./scripts/gcp_new_instance us-central1-b
 ssh pinging@<PUBLIC_IP>
-echo 'Server = https://mirrors.kernel.org/archlinux/$repo/os/$arch
-Server = https://mirrors.mit.edu/archlinux/$repo/os/$arch' | sudo tee /etc/pacman.d/mirrorlist
-sudo pacman -S archlinux-keyring # if having trouble updating otherwise
 
-sudo pacman -Syu
-sudo pacman -S rsync htop tmux strace gdb ripgrep helix perf
+sudo apt update && sudo apt upgrade -y && sudo apt install rsync htop tmux strace gdb ripgrep
 
 # gcp only
 sudo sed -i 's/PermitRootLogin no/PermitRootLogin yes/' /etc/ssh/sshd_config
@@ -23,14 +18,14 @@ sudo mkdir -p ~root/.ssh
 sudo cp ~/.ssh/authorized_keys ~root/.ssh/
 
 # vultr only as user root
-useradd -m -G wheel pinging
+useradd -m pinging
 mkdir ~pinging/.ssh/
 cp ~/.ssh/authorized_keys ~pinging/.ssh/
 chown -R pinging:pinging ~pinging/.ssh/
 ufw allow proto tcp from any to any port 80,443
 ufw allow proto udp from any to any port 8888
 
-sudo reboot
+sudo systemctl reboot
 
 ./scripts/copy_certs <PUBLIC_IP>
 ./scripts/deploy <PUBLIC_IP> <LOCATION_DESCRIPTION> FULL
