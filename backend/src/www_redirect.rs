@@ -44,7 +44,15 @@ mod tests {
     use super::*;
 
     async fn get_new_uri_wrapper(uri: &str) -> Option<Uri> {
-        let request = Request::builder().method("GET").uri(uri).body(()).unwrap();
+        let request = Request::builder()
+            .method("GET")
+            .header(
+                "Host",
+                uri.parse::<Uri>().ok()?.authority().unwrap().to_string(),
+            )
+            .uri(uri)
+            .body(())
+            .unwrap();
         let (mut parts, _body) = request.into_parts();
 
         get_new_uri(&mut parts).await
