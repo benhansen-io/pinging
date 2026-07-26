@@ -6,8 +6,9 @@ use axum::{
     routing::get,
     Router,
 };
-use axum_extra::{headers, TypedHeader};
 use tracing::error;
+
+use crate::host::Host;
 
 /// Launch a trivial server listening to HTTP to redirect to HTTPS.
 ///
@@ -22,13 +23,13 @@ pub fn launch_redirect_to_https_server(addr: SocketAddr) {
 
 async fn redirect_handler(
     uri: Uri,
-    host: TypedHeader<headers::Host>,
+    Host(host): Host,
 ) -> Result<Redirect, (StatusCode, &'static str)> {
     let mut parts = uri.clone().into_parts();
     parts.scheme = Some(axum::http::uri::Scheme::HTTPS);
     if parts.authority.is_none() {
         // This might not work for hosts with a port but that is not expected in production.
-        parts.authority = Some(Authority::try_from(host.hostname()).map_err(|_| {
+        parts.authority = Some(Authority::try_from(host).map_err(|_| {
             (
                 StatusCode::BAD_REQUEST,
                 "Host given not convertible to Authority",

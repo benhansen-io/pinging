@@ -8,11 +8,12 @@ use axum::{
     routing::{get, post},
     BoxError, Router,
 };
-use axum_extra::{headers, TypedHeader};
+use host::Host;
 use std::{net::SocketAddr, time::Duration};
 use tower_http::set_header::SetResponseHeaderLayer;
 use tracing::info;
 
+mod host;
 mod https_redirect;
 mod metrics;
 mod static_files;
@@ -35,11 +36,8 @@ fn get_opt_env_var(name: &str) -> anyhow::Result<Option<String>> {
 }
 
 /// Return the client generated random number that is prefixed to the host.
-async fn dns_check(
-    OriginalUri(original_uri): OriginalUri,
-    host: TypedHeader<headers::Host>,
-) -> String {
-    let mut host = original_uri.host().unwrap_or(&host.hostname()).to_owned();
+async fn dns_check(OriginalUri(original_uri): OriginalUri, Host(host): Host) -> String {
+    let mut host = original_uri.host().unwrap_or(&host).to_owned();
     if let Some(pos) = host.find("dns-check") {
         host.truncate(pos);
     }

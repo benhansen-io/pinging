@@ -3,18 +3,16 @@ use axum::{
     response::{IntoResponse, Redirect, Response},
     RequestPartsExt,
 };
-use axum_extra::{headers, TypedHeader};
+
+use crate::host::Host;
 
 async fn get_new_uri(req_parts: &mut axum::http::request::Parts) -> Option<Uri> {
     // If there is any error in obtaining a redirect URI, we will not redirect.
-    let host = req_parts
-        .extract::<TypedHeader<headers::Host>>()
-        .await
-        .ok()?;
-    if host.hostname().matches('.').count() == 1 {
+    let Host(host) = req_parts.extract::<Host>().await.ok()?;
+    if host.matches('.').count() == 1 {
         let mut uri_parts = req_parts.uri.clone().into_parts();
         // Might not work for all authorities (e.g. have ports) but we don't need to support that.
-        let new_host = "www.".to_owned() + &host.hostname();
+        let new_host = "www.".to_owned() + &host;
         let new_authority = Authority::try_from(new_host).ok()?;
         uri_parts.authority = Some(new_authority);
         return Uri::from_parts(uri_parts).ok();
