@@ -400,7 +400,7 @@ async function testHttpOrDns(testName: string) {
       "https://" +
         randomNumber +
         "dns-check." +
-        window.location.hostname +
+        window.location.hostname.replace(/^www\./, "") +
         "/api/dns-check",
       {
         method: "GET",
