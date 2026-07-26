@@ -397,7 +397,11 @@ async function testHttpOrDns(testName: string) {
     });
   } else {
     pong = fetch(
-      "https://" + randomNumber + "dns-check.pinging.net/api/dns-check",
+      "https://" +
+        randomNumber +
+        "dns-check." +
+        window.location.hostname +
+        "/api/dns-check",
       {
         method: "GET",
         cache: "no-store",

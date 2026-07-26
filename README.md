@@ -54,9 +54,9 @@ the request is also explicitly disabled. This test is run every 30 seconds.
 
 ### DNS Test
 
-Test DNS is working by making a HTTP GET request to a [random-number]dns-check.pinging.net.
-Caching is explicitly disabled and the random number part of the subdomain prevents common caching
-of the DNS lookup. This test is run every 30 seconds.
+Test DNS is working by making a HTTP GET request to a `[random-number]dns-check.<this site's
+domain>`. Caching is explicitly disabled and the random number part of the subdomain prevents
+common caching of the DNS lookup. This test is run every 30 seconds.
 
 ### Browser Check
 
